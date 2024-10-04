@@ -15,7 +15,9 @@ namespace Chua_MExer05
         [TestCase("5>3", new[] { "5","3",">"})]
         [TestCase("!(5 == 5) && (5<=10)", new[] { "5", "5","==", "!", "5", "10", "<=", "&&"})]
         [TestCase("(5!=5) || (5 < 10)", new[] { "5", "5","!=", "5", "10", "<", "||"})]
+        [TestCase("(5!=5) || (-99 < 10)", new[] { "5", "5","!=", "-99", "10", "<", "||"})]
         [TestCase("!(5!=5) && !(5 < 10)", new[] { "5", "5","!=", "!","5","10","<","!","&&"})]
+        [TestCase("!(-5!=5) && !(5 < 10)", new[] { "-5", "5","!=", "!","5","10","<","!","&&"})]
         public void ToPostFix_GivenInfix_ComparePostfixResult(string expression, string[] expectedPostfixArray)
         {
             //arrange
@@ -40,6 +42,7 @@ namespace Chua_MExer05
         [TestCase("!(5 == 5) && (5<=10.1)", new[] { "5", "5", "==", "!", "5", "10.1", "<=", "&&" })]
         [TestCase("(5!=5.5) || (5 < 10)", new[] { "5", "5.5", "!=", "5", "10", "<", "||" })]
         [TestCase("!(5!=5) && !(5 < 10.01)", new[] { "5", "5", "!=", "!", "5", "10.01", "<", "!", "&&" })]
+        [TestCase("!(-5.5!=5) && !(5 < 10.01)", new[] { "-5.5", "5", "!=", "!", "5", "10.01", "<", "!", "&&" })]
         public void ToPostFix_GivenInfixWithDecimalNumbers_ComparePostfixResult(string expression, string[] expectedPostfixArray)
         {
             //arrange
@@ -64,6 +67,8 @@ namespace Chua_MExer05
         [TestCase(new[] { "5", "5.5", "!=", "5", "10", "<", "||" }, true)]
         [TestCase(new[] { "5", "5", "==", "!", "5", "10", "<=", "&&" }, false)]
         [TestCase(new[] { "5", "3.5", ">" }, true)]
+        [TestCase(new[] { "5", "5", "!=", "-99", "10", "<", "||" }, true)]
+        [TestCase(new[] { "-5.5", "5", "!=", "!", "5", "10.01", "<", "!", "&&" }, false)]
 
         public void Evaluate_GivenPostfix_ComparePostfixResult(string[] expression, bool expectedResult)
         {
